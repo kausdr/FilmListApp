@@ -1,9 +1,9 @@
-import Login from "./login";
+import { Redirect, useRouter } from "expo-router";
 
-const Index: React.FC = () => {
-  return (
-      <Login></Login>
-  );
-};
+export default function Index() {
+  const router = useRouter();
 
-export default Index;
+  return(
+    <Redirect href="/login" />
+  )
+}

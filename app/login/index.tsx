@@ -1,21 +1,26 @@
 import { Colors } from "@/app/styles/colors";
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { UserContext } from "../dev/contexts/userContextAPI";
 import { loginUser } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 
 const Login = () => {
+    const { setUser } = useContext(UserContext);
+    
     const router = useRouter();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
+    
+
     const handleLogin = async () => {
         const user = await loginUser(email, password);
         if (user) {
-            console.log('Login bem-sucedido!', user);
+            setUser(user);
             router.push('/home');
         } else {
             console.log('Email ou senha incorretos!');

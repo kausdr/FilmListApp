@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
 
-interface User {
+export interface User {
     name: string;
     email: string;
     password: string;

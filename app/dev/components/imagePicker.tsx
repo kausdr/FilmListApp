@@ -1,12 +1,22 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from "react";
 import ReactDOM from "react-dom";
-import { ActionSheetIOS, Alert, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActionSheetIOS, Alert, Image, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { indexStyles } from "../../styles/indexStyles";
 import { takePhoto, uploadImage } from '../services/user';
 
-const ImagePicker: React.FC = () => {
-    const [image, setImage] = React.useState<string>("https://placehold.co/600x400?text=O");
+interface ImagePickerProps {
+    isEditable?: boolean;
+    image: string;
+    setImage: (uri: string) => void;
+}
+
+const ImagePicker = ({
+    isEditable = false,
+    image,
+    setImage,
+}: ImagePickerProps) => {
     const [showWebOptions, setShowWebOptions] = React.useState(false);
     const [showCamera, setShowCamera] = React.useState(false);
     const [videoStream, setVideoStream] = React.useState<MediaStream | null>(null);
@@ -142,11 +152,41 @@ const ImagePicker: React.FC = () => {
     };
 
     return (
-        <View style={indexStyles.section}>
-            <Image source={{ uri: image }} style={indexStyles.profileImage} />
-            <TouchableOpacity style={indexStyles.buttonPrimary} onPress={openDropdown}>
-                <Text style={indexStyles.buttonPrimaryText}>Alterar foto</Text>
-            </TouchableOpacity>
+        <View style={[indexStyles.section, { alignItems: 'center' }]}>
+            <View style={[{
+                position: 'relative',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 100,
+                height: 100,
+            }]}>
+                <Image source={{ uri: image }} style={indexStyles.profileImage} />
+                {isEditable && (
+                    <TouchableOpacity style={[indexStyles.buttonPrimary,
+                    {
+                        flex: 0,
+                        borderRadius: 100,
+                        width: 100,
+                        height: 100,
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(102, 108, 117, 0.4)',
+                    },
+                    ]} onPress={openDropdown}>
+                        <View style={{
+                            backgroundColor: '#001f48ff',
+                            padding: 5,
+                            borderRadius: 5,
+                        }}>
+                            <Ionicons name="create-outline" size={24} color="white" />
+                        </View>
+                    </TouchableOpacity>
+                )}
+            </View>
+
 
             {Platform.OS === 'web' && <WebDropdown />}
             {Platform.OS === 'web' && <WebCamera />}

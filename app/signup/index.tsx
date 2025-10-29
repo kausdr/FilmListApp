@@ -49,7 +49,11 @@ const SignUp = () => {
                 <View style={indexStyles.card}>
                     <Text style={indexStyles.pageTitle}>Cadastrar</Text>
                     <View style={indexStyles.section}>
-                        <ImagePicker />
+                        <ImagePicker
+                            image={image}
+                            setImage={setImage}
+                            isEditable={true}
+                        />
                     </View>
                     <View style={indexStyles.section}>
                         <Text style={indexStyles.label}>Nome:</Text>
