@@ -1,15 +1,11 @@
 import { Colors } from "@/app/styles/colors";
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Link } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { RootStackParamList } from "../../index";
-import { indexStyles } from "../../styles/indexStyles";
-type SignupcreenProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
+import { indexStyles } from "../styles/indexStyles";
 
 
-export const SignUp = () => {
-    const navigation = useNavigation<SignupcreenProp>();
+const SignUp = () => {
 
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -58,11 +54,12 @@ export const SignUp = () => {
                         />
                     </View>
 
-                    <TouchableOpacity style={indexStyles.link} onPress={() => navigation.navigate('Login')}>
-                        <Text style={indexStyles.linkText}>
-                            Já tem uma conta? Faça login.
-                        </Text>
-                    </TouchableOpacity>
+                    <Link href="/login" asChild>
+                        <TouchableOpacity style={indexStyles.link}>
+                            <Text style={indexStyles.linkText}>Já tem uma conta? Faça login.</Text>
+                        </TouchableOpacity>
+                    </Link>
+
 
                     <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]} onPress={() => console.log('Clicou!')}>
                         <Text style={indexStyles.buttonPrimaryText}>Cadastrar</Text>
@@ -75,3 +72,6 @@ export const SignUp = () => {
         </View>
     );
 };
+
+
+export default SignUp;

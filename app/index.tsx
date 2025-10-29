@@ -1,22 +1,9 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
-import { Login } from './components/LoginScreen/Login';
-import { SignUp } from './components/LoginScreen/SignUp';
+import Login from "./login";
 
-export type RootStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-};
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const App: React.FC = () => {
+const Index: React.FC = () => {
   return (
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-      </Stack.Navigator>
+      <Login></Login>
   );
 };
 
-export default App;
+export default Index;

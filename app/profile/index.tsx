@@ -1,7 +1,7 @@
 import { Colors } from "@/app/styles/colors";
 import React from "react";
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { indexStyles } from "../../styles/indexStyles";
+import { indexStyles } from "../styles/indexStyles";
 
 export const Profile = () => {
 
