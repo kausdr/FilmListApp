@@ -1,9 +1,10 @@
 import { Colors } from "@/app/styles/colors";
 import { Link, useRouter } from "expo-router";
 import React from "react";
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
-import { saveUser, userExists } from "../dev/services/user";
+import ImagePicker from "../dev/components/imagePicker";
+import { saveUser, takePhoto, uploadImage, userExists } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 
@@ -13,12 +14,28 @@ const SignUp = () => {
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [image, setImage] = React.useState("https://placehold.co/600x400/000000/FFF");
 
+
+    const handleUploadImage = async () => {
+        const uri = await uploadImage();
+        if (uri) setImage(uri);
+    };
+
+    const handleTakePhoto = async () => {
+        const uri = await takePhoto();
+        if (uri) setImage(uri);
+    };
 
     const handleSignUp = async () => {
         const exists = await userExists(email);
         if (exists) {
             console.log('Usuário já cadastrado!');
+            Toast.show({
+                type: 'info',
+                text1: 'E-mail já existe!',
+                text2: 'Esse e-mail já está cadastrado.'
+            });
             return;
         }
 
@@ -43,10 +60,7 @@ const SignUp = () => {
                 <View style={indexStyles.card}>
                     <Text style={indexStyles.pageTitle}>Cadastrar</Text>
                     <View style={indexStyles.section}>
-                        <Image
-                            source={{ uri: "https://placehold.co/600x400/000000/FFF" }}
-                            style={indexStyles.profileImage}
-                        />
+                        <ImagePicker />
                     </View>
                     <View style={indexStyles.section}>
                         <Text style={indexStyles.label}>Nome:</Text>

@@ -95,7 +95,26 @@ export const indexStyles = StyleSheet.create({
         textAlign: 'center',
         color: '#00224fff',
         marginBottom: 20,
-    }
+    },
+    overlay: {
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+    },
+    dropdown: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        minWidth: 200,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+        alignItems: 'center',
+    },
 
 
 });

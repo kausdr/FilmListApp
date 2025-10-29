@@ -1,6 +1,8 @@
 import { Colors } from "@/app/styles/colors";
 import React from "react";
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import ImagePicker from "../dev/components/imagePicker";
+import { takePhoto, uploadImage } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 export const Profile = () => {
@@ -9,6 +11,18 @@ export const Profile = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [editable, setEditable] = React.useState<boolean>(false);
+    const [image, setImage] = React.useState('');
+
+
+    const handlePickImage = async () => {
+        const uri = await uploadImage();
+        if (uri) setImage(uri);
+    };
+
+    const handleTakePhoto = async () => {
+        const uri = await takePhoto();
+        if (uri) setImage(uri);
+    };
 
     return (
         <ScrollView style={indexStyles.innerContainer}
@@ -20,10 +34,7 @@ export const Profile = () => {
             <View style={indexStyles.card}>
                 <Text style={indexStyles.pageTitle}>Perfil</Text>
                 <View style={indexStyles.section}>
-                    <Image
-                        source={{ uri: "https://placehold.co/600x400/000000/FFF" }}
-                        style={indexStyles.profileImage}
-                    />
+                    <ImagePicker />
                     <Text style={indexStyles.title} >Nome</Text>
                 </View>
 
