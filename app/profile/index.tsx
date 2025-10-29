@@ -1,19 +1,21 @@
 import { Colors } from "@/app/styles/colors";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-toast-message";
 import ImagePicker from "../dev/components/imagePicker";
 import { UserContext } from "../dev/contexts/userContextAPI";
+import { updateUser } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 export const Profile = () => {
-    const { user } = useContext(UserContext);
+    const { user, setUser, saveUserSession } = useContext(UserContext);
 
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [image, setImage] = React.useState('');
     const [editable, setEditable] = React.useState<boolean>(false);
-
+    const prevEmail = useRef<string>(email);
 
     useEffect(() => {
         if (user) {
@@ -23,8 +25,51 @@ export const Profile = () => {
             if (user.image) {
                 setImage(user.image);
             }
+
+            prevEmail.current = user.email;
         }
     }, [user])
+
+
+    const handleSave = async () => {
+        if (!user) return;
+        setEditable(false)
+        const newUser = {
+            name,
+            email,
+            password,
+            image,
+        };
+
+        try {
+            const updatedUser = await updateUser(prevEmail.current, newUser)
+
+            if (updatedUser) {
+                setUser(updatedUser);
+                await saveUserSession(updatedUser);
+                prevEmail.current = email;
+                Toast.show({ type: 'success', text1: 'Perfil atualizado!' });
+            } else {
+                Toast.show({ type: 'error', text1: 'Erro ao salvar', text2: 'Ocorreu um erro ao salvar o perfil.' });
+            }
+
+        } catch (error) {
+            console.log('Erro ao atualizar usuário:', error);
+            Toast.show({ type: 'error', text1: 'Erro de sistema', text2: 'Não foi possível salvar as alterações.' });
+        }
+
+
+    }
+
+        const handleCancel = () => {
+        if (user) {
+            setName(user.name);
+            setEmail(user.email);
+            setPassword(user.password);
+            setImage(user.image || '');
+        }
+        setEditable(false);
+    }
 
 
     return (
@@ -92,10 +137,10 @@ export const Profile = () => {
                     <View style={[indexStyles.section, { flexDirection: 'row', marginTop: 30 }]}>
                         {editable ? (
                             <>
-                                <TouchableOpacity style={indexStyles.buttonSecondary} onPress={() => setEditable(false)}>
+                                <TouchableOpacity style={indexStyles.buttonSecondary} onPress={() => handleCancel()}>
                                     <Text style={indexStyles.buttonSecondaryText}>Cancelar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={indexStyles.buttonPrimary} onPress={() => setEditable(false)}>
+                                <TouchableOpacity style={indexStyles.buttonPrimary} onPress={() => handleSave()}>
                                     <Text style={indexStyles.buttonPrimaryText}>Salvar</Text>
                                 </TouchableOpacity>
                             </>

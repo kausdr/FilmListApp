@@ -9,6 +9,8 @@ export interface User {
     image?: string;
 }
 
+const LOGGED_IN_USER_KEY = '@LoggedInUser'; 
+
 export const saveUser = async (user: User) => {
     try {
         const storedUsers = await AsyncStorage.getItem('users');
@@ -50,6 +52,52 @@ export const loginUser = async (email: string, password: string) => {
         return null;
     }
 };
+
+export const updateUser = async (oldEmail: string, updatedUser: User): Promise<User | null> => {
+    try {
+        const storedUsers = await AsyncStorage.getItem('users');
+        const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+        const userIndex = users.findIndex((u: User) => u.email === oldEmail);
+
+        if (userIndex === -1) {
+            console.log(`Usuário com email ${oldEmail} não encontrado.`);
+            return null;
+        }
+
+        users[userIndex] = updatedUser;
+
+        await AsyncStorage.setItem('users', JSON.stringify(users));
+
+        return updatedUser;
+    } catch (error) {
+        console.log('Erro ao atualizar usuário:', error);
+        return null;
+    }
+};
+
+export const saveLoggedInUser = async (user: User | null) => {
+    try {
+        if (user) {
+            await AsyncStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(user));
+        } else {
+            await AsyncStorage.removeItem(LOGGED_IN_USER_KEY);
+        }
+    } catch (error) {
+        console.log('Erro ao salvar usuário logado:', error);
+    }
+};
+
+export const loadLoggedInUser = async (): Promise<User | null> => {
+    try {
+        const storedUser = await AsyncStorage.getItem(LOGGED_IN_USER_KEY);
+        return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+        console.log('Erro ao carregar usuário logado:', error);
+        return null;
+    }
+};
+
 
 // --------------- Profile Pic ---------------
 

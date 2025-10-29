@@ -10,12 +10,12 @@ import { indexStyles } from "../styles/indexStyles";
 
 const Login = () => {
     const { setUser } = useContext(UserContext);
-    
+
     const router = useRouter();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    
+
 
     const handleLogin = async () => {
         const user = await loginUser(email, password);
@@ -40,6 +40,17 @@ const Login = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
+
+                    {/* botao de resetar o localstorage
+                <TouchableOpacity
+                    onPress={() => {
+                        localStorage.clear();
+                        window.location.reload();
+                    }}
+                >
+                    <Text>Sair / Resetar app</Text>
+                </TouchableOpacity> */}
+
                 <View style={indexStyles.card}>
                     <View style={indexStyles.section}>
                         <Text style={indexStyles.pageTitle}>Login</Text>
