@@ -1,15 +1,36 @@
 import { Colors } from "@/app/styles/colors";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Toast from 'react-native-toast-message';
+import { saveUser, userExists } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 
-const SignUp = () => {
 
+const SignUp = () => {
+    const router = useRouter();
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+
+
+    const handleSignUp = async () => {
+        const exists = await userExists(email);
+        if (exists) {
+            console.log('Usuário já cadastrado!');
+            return;
+        }
+
+        await saveUser({ name, email, password });
+        console.log('Usuário cadastrado com sucesso!');
+        Toast.show({
+            type: 'success',
+            text1: 'Cadastrado!',
+            text2: 'Usuário cadastrado com sucesso! Faça login.'
+        });
+        router.push('/login');
+    };
 
     return (
         <View style={indexStyles.outerContainer}>
@@ -21,6 +42,12 @@ const SignUp = () => {
                 }}>
                 <View style={indexStyles.card}>
                     <Text style={indexStyles.pageTitle}>Cadastrar</Text>
+                    <View style={indexStyles.section}>
+                        <Image
+                            source={{ uri: "https://placehold.co/600x400/000000/FFF" }}
+                            style={indexStyles.profileImage}
+                        />
+                    </View>
                     <View style={indexStyles.section}>
                         <Text style={indexStyles.label}>Nome:</Text>
                         <TextInput
@@ -61,7 +88,7 @@ const SignUp = () => {
                     </Link>
 
 
-                    <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]} onPress={() => console.log('Clicou!')}>
+                    <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]} onPress={handleSignUp}>
                         <Text style={indexStyles.buttonPrimaryText}>Cadastrar</Text>
                     </TouchableOpacity>
                 </View>
