@@ -4,7 +4,7 @@ import React from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Toast from 'react-native-toast-message';
 import ImagePicker from "../dev/components/imagePicker";
-import { saveUser, takePhoto, uploadImage, userExists } from "../dev/services/user";
+import { saveUser, userExists } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 
@@ -15,17 +15,6 @@ const SignUp = () => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [image, setImage] = React.useState("https://placehold.co/600x400/000000/FFF");
-
-
-    const handleUploadImage = async () => {
-        const uri = await uploadImage();
-        if (uri) setImage(uri);
-    };
-
-    const handleTakePhoto = async () => {
-        const uri = await takePhoto();
-        if (uri) setImage(uri);
-    };
 
     const handleSignUp = async () => {
         const exists = await userExists(email);
@@ -39,7 +28,7 @@ const SignUp = () => {
             return;
         }
 
-        await saveUser({ name, email, password });
+        await saveUser({ name, email, password, image });
         console.log('Usuário cadastrado com sucesso!');
         Toast.show({
             type: 'success',
