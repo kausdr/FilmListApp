@@ -34,6 +34,8 @@ function AuthGuard() {
     return <Redirect href="/home" />;
   }
 
+  console.log('API Key:', process.env.EXPO_PUBLIC_TMDB_API_KEY);
+
   return (
     <Stack
       screenOptions={{

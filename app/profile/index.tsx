@@ -1,10 +1,11 @@
 import { Colors } from "@/app/styles/colors";
 import React, { useContext, useEffect, useRef } from "react";
-import { Keyboard, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from "react-native-toast-message";
-import ImagePicker from "../dev/components/imagePicker";
+import ImagePicker from "../dev/components/ImagePicker";
 import { UserContext } from "../dev/contexts/userContextAPI";
 import { updateUser } from "../dev/services/user";
+import { dismissKeyboard } from "../dev/utils/utils";
 import { indexStyles } from "../styles/indexStyles";
 
 export const Profile = () => {
@@ -73,7 +74,7 @@ export const Profile = () => {
 
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
             <View style={indexStyles.outerContainer}>
                 <ScrollView style={indexStyles.innerContainer}
                     contentContainerStyle={{

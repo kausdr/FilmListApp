@@ -14,7 +14,6 @@ export const indexStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         gap: 5,
-        width: '80%',
     },
     section: {
         flexDirection: 'column',

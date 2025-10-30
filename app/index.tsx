@@ -1,7 +1,8 @@
-import { Redirect, useRouter } from "expo-router";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  const router = useRouter();
+
+  console.log('API Key:', process.env.TMDB_API_KEY);
 
   return(
     <Redirect href="/login" />

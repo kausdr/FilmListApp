@@ -1,10 +1,11 @@
 import { Colors } from "@/app/styles/colors";
 import { Link, useRouter } from "expo-router";
 import React, { useContext } from "react";
-import { Keyboard, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { UserContext } from "../dev/contexts/userContextAPI";
 import { loginUser } from "../dev/services/user";
+import { dismissKeyboard } from "../dev/utils/utils";
 import { indexStyles } from "../styles/indexStyles";
 
 
@@ -14,8 +15,6 @@ const Login = () => {
     const router = useRouter();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-
-
 
     const handleLogin = async () => {
         const user = await loginUser(email, password);
@@ -34,7 +33,7 @@ const Login = () => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
             <View style={indexStyles.outerContainer}>
                 <ScrollView style={indexStyles.innerContainer}
                     contentContainerStyle={{
