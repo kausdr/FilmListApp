@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
@@ -33,16 +34,23 @@ const Home = () => {
         ]}
         >
             <View style={indexStyles.innerContainer}>
-                <View style={indexStyles.card}>
-                    <Text>Home Screen</Text>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 15,
+                    }}
+                    >
+                    <Text style={indexStyles.pageTitle}>INÍCIO</Text>
                     <Link href="/profile" asChild>
                         <TouchableOpacity style={indexStyles.link}>
-                            <Text style={indexStyles.linkText}>Perfil</Text>
+                            <Ionicons name="person-circle-outline" size={30} color="#023b84ff" />
                         </TouchableOpacity>
                     </Link>
+                    
                 </View>
 
                 <FlatList
+                    style={{ flex: 1 }} 
                     data={movies}
                     keyExtractor={(movie, index) => index.toString()}
                     renderItem={({ item }) => (
