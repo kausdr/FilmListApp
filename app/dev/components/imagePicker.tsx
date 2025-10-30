@@ -29,7 +29,13 @@ const ImagePicker = ({
             input.onchange = (event: Event) => {
                 const target = event.target as HTMLInputElement;
                 if (target.files && target.files[0]) {
-                    setImage(URL.createObjectURL(target.files[0]));
+                    const file = target.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onloadend = () => {
+                        setImage(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
                 }
             };
             input.click();

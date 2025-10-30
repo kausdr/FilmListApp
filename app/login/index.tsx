@@ -9,7 +9,7 @@ import { indexStyles } from "../styles/indexStyles";
 
 
 const Login = () => {
-    const { setUser } = useContext(UserContext);
+    const { setUser, saveUserSession } = useContext(UserContext);
 
     const router = useRouter();
     const [email, setEmail] = React.useState('');
@@ -21,6 +21,7 @@ const Login = () => {
         const user = await loginUser(email, password);
         if (user) {
             setUser(user);
+            await saveUserSession(user);
             router.push('/home');
         } else {
             console.log('Email ou senha incorretos!');

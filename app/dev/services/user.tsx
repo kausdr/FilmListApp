@@ -116,10 +116,11 @@ export const uploadImage = async (): Promise<string | null> => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ['images'],
             quality: 1,
+            base64: true, 
         });
 
-        if (!result.canceled) {
-            return result.assets[0].uri;
+        if (!result.canceled && result.assets && result.assets[0].base64) {
+            return `data:image/jpeg;base64,${result.assets[0].base64}`;
         }
 
         return null;
@@ -143,10 +144,11 @@ export const takePhoto = async (): Promise<string | null> => {
 
         const result = await ImagePicker.launchCameraAsync({
             quality: 1,
+            base64: true, 
         });
 
-        if (!result.canceled) {
-            return result.assets[0].uri;
+        if (!result.canceled && result.assets && result.assets[0].base64) {
+            return `data:image/jpeg;base64,${result.assets[0].base64}`;
         }
 
         return null;

@@ -6,6 +6,7 @@ interface UserContextType {
   setUser: (user: User | null) => void;
   saveUserSession: (userData: User) => Promise<void>;
   logout: () => Promise<void>;
+  isLoading: boolean;
 }
 
 
@@ -14,10 +15,12 @@ export const UserContext = createContext<UserContextType>({
   setUser: () => { },
   saveUserSession: async () => { },
   logout: async () => { },
+  isLoading: false,
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const saveUserSession = async (userData: User) => {
     await saveLoggedInUser(userData);
@@ -29,12 +32,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const checkUser = async () => {
       const persistedUser = await loadLoggedInUser();
 
       if (persistedUser) {
         setUser(persistedUser);
       }
+
+      setIsLoading(false);
 
     };
 
@@ -47,6 +53,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setUser,
       saveUserSession,
       logout,
+      isLoading,
     }}>
       {children}
     </UserContext.Provider>

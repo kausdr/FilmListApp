@@ -71,6 +71,19 @@ export const indexStyles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
     },
+    buttonDestructive: {
+        flex: 1,
+        backgroundColor: '#840202ff',
+        padding: 15,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonDestructiveText: {
+        color: '#ffffffff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
     link: {
         alignItems: 'flex-end',
     },

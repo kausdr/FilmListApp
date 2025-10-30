@@ -2,6 +2,7 @@ import { Link } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { indexStyles } from "../styles/indexStyles";
 
+
 const Home = () => {
     return (
         <View style={indexStyles.outerContainer}>

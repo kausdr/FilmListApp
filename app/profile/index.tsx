@@ -8,7 +8,7 @@ import { updateUser } from "../dev/services/user";
 import { indexStyles } from "../styles/indexStyles";
 
 export const Profile = () => {
-    const { user, setUser, saveUserSession } = useContext(UserContext);
+    const { user, setUser, saveUserSession, logout } = useContext(UserContext);
 
     const [name, setName] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -61,7 +61,7 @@ export const Profile = () => {
 
     }
 
-        const handleCancel = () => {
+    const handleCancel = () => {
         if (user) {
             setName(user.name);
             setEmail(user.email);
@@ -145,11 +145,16 @@ export const Profile = () => {
                                 </TouchableOpacity>
                             </>
                         ) : (
-                            <>
+                            <View style={[indexStyles.section, {width: '100%'}]}>
                                 <TouchableOpacity style={indexStyles.buttonPrimary} onPress={() => setEditable(true)}>
                                     <Text style={indexStyles.buttonPrimaryText}>Editar</Text>
                                 </TouchableOpacity>
-                            </>
+
+
+                                <TouchableOpacity style={[indexStyles.buttonDestructive, {width: 100, alignSelf: 'center'}]} onPress={() => logout()}>
+                                    <Text style={indexStyles.buttonDestructiveText}>Sair</Text>
+                                </TouchableOpacity>
+                            </View>
                         )}
 
 
