@@ -89,13 +89,20 @@ const SignUp = () => {
                     </View>
 
                     <Link href="/login" asChild>
-                        <TouchableOpacity style={indexStyles.link}>
+                        <TouchableOpacity style={indexStyles.link}
+                            accessibilityLabel="Link para a tela de login. Já tem uma conta?"
+                            accessibilityRole="link"
+                        >
                             <Text style={indexStyles.linkText}>Já tem uma conta? Faça login.</Text>
                         </TouchableOpacity>
                     </Link>
 
 
-                    <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]} onPress={handleSignUp}>
+                    <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]}
+                        onPress={handleSignUp}
+                        accessibilityLabel="Botão de cadastrar. Envia os dados de registro."
+                        accessibilityRole="button"
+                    >
                         <Text style={indexStyles.buttonPrimaryText}>Cadastrar</Text>
                     </TouchableOpacity>
                 </View>

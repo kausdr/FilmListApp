@@ -42,7 +42,7 @@ const Login = () => {
                     alignItems: 'center',
                 }}>
 
-                    {/* botao de resetar o localstorage
+                {/* botao de resetar o localstorage
                 <TouchableOpacity
                     onPress={() => {
                         localStorage.clear();
@@ -58,6 +58,8 @@ const Login = () => {
                         <Text style={indexStyles.label}>Email:</Text>
                         <TextInput
                             style={indexStyles.input}
+                            accessible={true}
+                            accessibilityLabel="Campo de email. Digite seu endereço de email."
                             placeholder="Digite seu email"
                             placeholderTextColor={Colors.placeholder}
                             value={email}
@@ -68,6 +70,8 @@ const Login = () => {
                     <View style={indexStyles.section}>
                         <Text style={indexStyles.label}>Senha:</Text>
                         <TextInput
+                            accessible={true}
+                            accessibilityLabel="Campo de senha. Digite sua senha."
                             style={indexStyles.input}
                             placeholder="Digite sua senha"
                             placeholderTextColor={Colors.placeholder}
@@ -83,9 +87,15 @@ const Login = () => {
                         </TouchableOpacity>
                     </Link>
 
-                    <TouchableOpacity style={[indexStyles.buttonPrimary, { marginTop: 30 }]} onPress={handleLogin}>
+                    <TouchableOpacity
+                        style={[indexStyles.buttonPrimary, { marginTop: 30 }]}
+                        onPress={handleLogin}
+                        accessibilityLabel="Botão de entrar. Faz login com o email e senha informados."
+                        accessibilityRole="button"
+                    >
                         <Text style={indexStyles.buttonPrimaryText}>Entrar</Text>
                     </TouchableOpacity>
+
                 </View>
 
 

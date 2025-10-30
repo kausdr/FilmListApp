@@ -137,21 +137,37 @@ export const Profile = () => {
                     <View style={[indexStyles.section, { flexDirection: 'row', marginTop: 30 }]}>
                         {editable ? (
                             <>
-                                <TouchableOpacity style={indexStyles.buttonSecondary} onPress={() => handleCancel()}>
+                                <TouchableOpacity style={indexStyles.buttonSecondary}
+                                    onPress={() => handleCancel()}
+                                    accessibilityLabel="Botão de cancelar alterações no perfil."
+                                    accessibilityRole="button"
+                                >
                                     <Text style={indexStyles.buttonSecondaryText}>Cancelar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={indexStyles.buttonPrimary} onPress={() => handleSave()}>
+                                <TouchableOpacity style={indexStyles.buttonPrimary}
+                                    onPress={() => handleSave()}
+                                    accessibilityLabel="Botão de salvar alterações no perfil."
+                                    accessibilityRole="button"
+                                >
                                     <Text style={indexStyles.buttonPrimaryText}>Salvar</Text>
                                 </TouchableOpacity>
                             </>
                         ) : (
-                            <View style={[indexStyles.section, {width: '100%'}]}>
-                                <TouchableOpacity style={indexStyles.buttonPrimary} onPress={() => setEditable(true)}>
+                            <View style={[indexStyles.section, { width: '100%' }]}>
+                                <TouchableOpacity style={indexStyles.buttonPrimary}
+                                    onPress={() => setEditable(true)}
+                                    accessibilityLabel="Botão de editar perfil. Permite alterar nome, email e senha."
+                                    accessibilityRole="button"
+                                >
                                     <Text style={indexStyles.buttonPrimaryText}>Editar</Text>
                                 </TouchableOpacity>
 
 
-                                <TouchableOpacity style={[indexStyles.buttonDestructive, {width: 100, alignSelf: 'center'}]} onPress={() => logout()}>
+                                <TouchableOpacity style={[indexStyles.buttonDestructive, { width: 100, alignSelf: 'center' }]}
+                                    onPress={() => logout()}
+                                    accessibilityLabel="Botão de sair da conta."
+                                    accessibilityRole="button"
+                                >
                                     <Text style={indexStyles.buttonDestructiveText}>Sair</Text>
                                 </TouchableOpacity>
                             </View>

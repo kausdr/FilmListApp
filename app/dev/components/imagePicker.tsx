@@ -31,7 +31,7 @@ const ImagePicker = ({
                 if (target.files && target.files[0]) {
                     const file = target.files[0];
                     const reader = new FileReader();
-                    
+
                     reader.onloadend = () => {
                         setImage(reader.result as string);
                     };
@@ -126,10 +126,24 @@ const ImagePicker = ({
     const WebDropdown = () => {
         if (!showWebOptions) return null;
         return ReactDOM.createPortal(
-            <div style={styles.webOverlay} onClick={() => setShowWebOptions(false)}>
+            <div style={styles.webOverlay}
+                onClick={() => setShowWebOptions(false)}
+                role="dialog"
+                aria-label="Opções de imagem de perfil"
+            >
                 <div style={styles.webDropdown} onClick={(e) => e.stopPropagation()}>
-                    <button style={styles.webButtonPrimary} onClick={handleUploadImage}>Escolher da galeria</button>
-                    <button style={styles.webButtonPrimary} onClick={handleTakePhotoWeb}>Tirar foto</button>
+                    <button style={styles.webButtonPrimary}
+                        onClick={handleUploadImage}
+                        aria-label="Escolher imagem da galeria"
+                    >
+                        Escolher da galeria
+                    </button>
+                    <button style={styles.webButtonPrimary}
+                        onClick={handleTakePhotoWeb}
+                        aria-label="Tirar nova foto com a câmera"
+                    >
+                        Tirar foto
+                    </button>
                 </div>
             </div>,
             document.body
@@ -139,7 +153,11 @@ const ImagePicker = ({
     const WebCamera = () => {
         if (!showCamera || !videoStream) return null;
         return ReactDOM.createPortal(
-            <div style={styles.webOverlay} onClick={cancelCamera}>
+            <div style={styles.webOverlay}
+                onClick={cancelCamera}
+                role="dialog"
+                aria-label="Câmera ativa para tirar foto de perfil"
+            >
                 <div style={styles.webDropdown} onClick={(e) => e.stopPropagation()}>
                     <video
                         id="webVideo"
@@ -149,8 +167,18 @@ const ImagePicker = ({
                         style={{ width: 300, borderRadius: 10 }}
                         ref={v => { if (v) v.srcObject = videoStream; }}
                     />
-                    <button style={styles.webButtonPrimary} onClick={capturePhoto}>Capturar foto</button>
-                    <button style={styles.webButtonSecondary} onClick={cancelCamera}>Cancelar</button>
+                    <button style={styles.webButtonPrimary}
+                        onClick={capturePhoto}
+                        aria-label="Capturar foto da câmera"
+                    >
+                        Capturar foto
+                    </button>
+                    <button style={styles.webButtonSecondary}
+                        onClick={cancelCamera}
+                        aria-label="Cancelar captura de foto"
+                    >
+                        Cancelar
+                    </button>
                 </div>
             </div>,
             document.body
@@ -158,7 +186,9 @@ const ImagePicker = ({
     };
 
     return (
-        <View style={[indexStyles.section, { alignItems: 'center' }]}>
+        <View style={[indexStyles.section, { alignItems: 'center' }]}
+            accessibilityLabel="Seção de imagem de perfil"
+        >
             <View style={[{
                 position: 'relative',
                 justifyContent: 'center',
@@ -166,22 +196,28 @@ const ImagePicker = ({
                 width: 100,
                 height: 100,
             }]}>
-                <Image source={{ uri: image }} style={indexStyles.profileImage} />
+                <Image source={{ uri: image }}
+                    style={indexStyles.profileImage}
+                    accessibilityLabel="Foto de perfil do usuário"
+                />
                 {isEditable && (
-                    <TouchableOpacity style={[indexStyles.buttonPrimary,
-                    {
-                        flex: 0,
-                        borderRadius: 100,
-                        width: 100,
-                        height: 100,
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'rgba(102, 108, 117, 0.4)',
-                    },
-                    ]} onPress={openDropdown}>
+                    <TouchableOpacity
+                        accessibilityLabel="Editar imagem de perfil"
+                        accessibilityHint="Abre opções para escolher uma nova imagem ou tirar uma foto"
+                        style={[indexStyles.buttonPrimary,
+                        {
+                            flex: 0,
+                            borderRadius: 100,
+                            width: 100,
+                            height: 100,
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgba(102, 108, 117, 0.4)',
+                        },
+                        ]} onPress={openDropdown}>
                         <View style={{
                             backgroundColor: '#001f48ff',
                             padding: 5,
