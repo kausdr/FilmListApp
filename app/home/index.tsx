@@ -37,19 +37,23 @@ const Home = () => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginTop: 15,
-                    }}
-                    >
+                }}
+                >
                     <Text style={indexStyles.pageTitle}>INÍCIO</Text>
                     <Link href="/profile" asChild>
-                        <TouchableOpacity style={indexStyles.link}>
+                        <TouchableOpacity
+                            style={indexStyles.link}
+                            accessibilityLabel="Botão para visitar o perfil."
+                            accessibilityRole="button"
+                        >
                             <Ionicons name="person-circle-outline" size={30} color="#023b84ff" />
                         </TouchableOpacity>
                     </Link>
-                    
+
                 </View>
 
                 <FlatList
-                    style={{ flex: 1 }} 
+                    style={{ flex: 1 }}
                     data={movies}
                     keyExtractor={(movie, index) => index.toString()}
                     renderItem={({ item }) => (
