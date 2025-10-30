@@ -16,7 +16,6 @@ const Home = () => {
     const getMovies = async () => {
         const movies = await apiService.getAllMovies();
         if (movies) setMovies(movies.results);
-        console.log(movies);
     }
 
     useEffect(() => {
