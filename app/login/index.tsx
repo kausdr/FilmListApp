@@ -1,7 +1,7 @@
 import { Colors } from "@/app/styles/colors";
 import { Link, useRouter } from "expo-router";
 import React, { useContext } from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Keyboard, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { UserContext } from "../dev/contexts/userContextAPI";
 import { loginUser } from "../dev/services/user";
@@ -34,15 +34,18 @@ const Login = () => {
     };
 
     return (
-        <View style={indexStyles.outerContainer}>
-            <ScrollView style={indexStyles.innerContainer}
-                contentContainerStyle={{
-                    flexGrow: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View style={indexStyles.outerContainer}>
+                <ScrollView style={indexStyles.innerContainer}
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                    keyboardShouldPersistTaps="handled"
+                >
 
-                {/* botao de resetar o localstorage
+                    {/* botao de resetar o localstorage
                 <TouchableOpacity
                     onPress={() => {
                         localStorage.clear();
@@ -52,56 +55,57 @@ const Login = () => {
                     <Text>Sair / Resetar app</Text>
                 </TouchableOpacity> */}
 
-                <View style={indexStyles.card}>
-                    <View style={indexStyles.section}>
-                        <Text style={indexStyles.pageTitle}>Login</Text>
-                        <Text style={indexStyles.label}>Email:</Text>
-                        <TextInput
-                            style={indexStyles.input}
-                            accessible={true}
-                            accessibilityLabel="Campo de email. Digite seu endereço de email."
-                            placeholder="Digite seu email"
-                            placeholderTextColor={Colors.placeholder}
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address"
-                        />
-                    </View>
-                    <View style={indexStyles.section}>
-                        <Text style={indexStyles.label}>Senha:</Text>
-                        <TextInput
-                            accessible={true}
-                            accessibilityLabel="Campo de senha. Digite sua senha."
-                            style={indexStyles.input}
-                            placeholder="Digite sua senha"
-                            placeholderTextColor={Colors.placeholder}
-                            value={password}
-                            onChangeText={setPassword}
-                            secureTextEntry={true}
-                        />
-                    </View>
+                    <View style={indexStyles.card}>
+                        <View style={indexStyles.section}>
+                            <Text style={indexStyles.pageTitle}>Login</Text>
+                            <Text style={indexStyles.label}>Email:</Text>
+                            <TextInput
+                                style={indexStyles.input}
+                                accessible={true}
+                                accessibilityLabel="Campo de email. Digite seu endereço de email."
+                                placeholder="Digite seu email"
+                                placeholderTextColor={Colors.placeholder}
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address"
+                            />
+                        </View>
+                        <View style={indexStyles.section}>
+                            <Text style={indexStyles.label}>Senha:</Text>
+                            <TextInput
+                                accessible={true}
+                                accessibilityLabel="Campo de senha. Digite sua senha."
+                                style={indexStyles.input}
+                                placeholder="Digite sua senha"
+                                placeholderTextColor={Colors.placeholder}
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry={true}
+                            />
+                        </View>
 
-                    <Link href="/signup" asChild>
-                        <TouchableOpacity style={indexStyles.link}>
-                            <Text style={indexStyles.linkText}>Não tem uma conta?</Text>
+                        <Link href="/signup" asChild>
+                            <TouchableOpacity style={indexStyles.link}>
+                                <Text style={indexStyles.linkText}>Não tem uma conta?</Text>
+                            </TouchableOpacity>
+                        </Link>
+
+                        <TouchableOpacity
+                            style={[indexStyles.buttonPrimary, { marginTop: 30 }]}
+                            onPress={handleLogin}
+                            accessibilityLabel="Botão de entrar. Faz login com o email e senha informados."
+                            accessibilityRole="button"
+                        >
+                            <Text style={indexStyles.buttonPrimaryText}>Entrar</Text>
                         </TouchableOpacity>
-                    </Link>
 
-                    <TouchableOpacity
-                        style={[indexStyles.buttonPrimary, { marginTop: 30 }]}
-                        onPress={handleLogin}
-                        accessibilityLabel="Botão de entrar. Faz login com o email e senha informados."
-                        accessibilityRole="button"
-                    >
-                        <Text style={indexStyles.buttonPrimaryText}>Entrar</Text>
-                    </TouchableOpacity>
-
-                </View>
+                    </View>
 
 
 
-            </ScrollView>
-        </View>
+                </ScrollView>
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 

@@ -1,11 +1,21 @@
 import { Link } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { indexStyles } from "../styles/indexStyles";
 
 
 const Home = () => {
+    const insets = useSafeAreaInsets();
+
     return (
-        <View style={indexStyles.outerContainer}>
+        <View style={[
+            indexStyles.outerContainer,
+            {
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+            }
+        ]}
+        >
             <View style={indexStyles.innerContainer}>
                 <View style={indexStyles.card}>
                     <Text>Home Screen</Text>

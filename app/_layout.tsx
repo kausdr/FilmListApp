@@ -1,6 +1,6 @@
 import { Redirect, Stack, useSegments } from "expo-router";
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { UserContext, UserProvider } from "./dev/contexts/userContextAPI";
 
@@ -23,7 +23,7 @@ function AuthGuard() {
   const inAuthGroup = segments[0] === 'login' || segments[0] === 'signup';
 
   if (isLoading) {
-    return <View>aaa</View>;
+    return <View><Text>aaa</Text></View>;
   }
 
   if (!user && !inAuthGroup) {
@@ -38,6 +38,7 @@ function AuthGuard() {
     <Stack
       screenOptions={{
         headerShown: true,
+        headerBackTitle: 'Voltar',
       }}
     >
       <Stack.Screen
