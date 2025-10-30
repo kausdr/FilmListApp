@@ -1,6 +1,6 @@
 import { Redirect, Stack, useSegments } from "expo-router";
 import React, { useContext } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { UserContext, UserProvider } from "./dev/contexts/userContextAPI";
 
@@ -23,7 +23,11 @@ function AuthGuard() {
   const inAuthGroup = segments[0] === 'login' || segments[0] === 'signup';
 
   if (isLoading) {
-    return <View><Text>aaa</Text></View>;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="white" />
+      </View>
+    );
   }
 
   if (!user && !inAuthGroup) {
@@ -33,8 +37,6 @@ function AuthGuard() {
   if (user && inAuthGroup) {
     return <Redirect href="/home" />;
   }
-
-  console.log('API Key:', process.env.EXPO_PUBLIC_TMDB_API_KEY);
 
   return (
     <Stack
@@ -74,3 +76,12 @@ function AuthGuard() {
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black'
+  },
+});
