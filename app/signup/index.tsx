@@ -3,7 +3,7 @@ import { Link, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from 'react-native-toast-message';
-import ImagePicker from "../dev/components/ImagePicker";
+import ImagePicker from "../dev/components/tempPicker";
 import { saveUser, userExists } from "../dev/services/user";
 import { dismissKeyboard } from "../dev/utils/utils";
 import { indexStyles } from "../styles/indexStyles";
