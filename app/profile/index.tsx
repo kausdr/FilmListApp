@@ -2,7 +2,7 @@ import { Colors } from "@/app/styles/colors";
 import React, { useContext, useEffect, useRef } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from "react-native-toast-message";
-import ImagePicker from "../dev/components/tempPicker";
+import ImagePicker from "../dev/components/ImagePicker";
 import { UserContext } from "../dev/contexts/userContextAPI";
 import { updateUser } from "../dev/services/user";
 import { dismissKeyboard } from "../dev/utils/utils";
