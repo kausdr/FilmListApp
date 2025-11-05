@@ -1,42 +1,55 @@
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
+import React from "react";
+import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { useRouter } from "expo-router";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface MovieCardProps {
-  image: string;
+  movie: any;
+  style?: ViewStyle;
 }
 
-const MovieCard = ({ image }: MovieCardProps) => {
-  const { width } = useWindowDimensions();
-
-
-  const cardWidth =
-    width >= 1200 ? width / 6 - 20 :
-    width >= 768 ? width / 4 - 20 :
-    width / 2.5 - 20;
-
-  const cardHeight = cardWidth * 1.5;
+const MovieCard = ({ movie, style }: MovieCardProps) => {
+  const router = useRouter();
+  const imageUri = movie?.poster_path
+    ? `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${movie.poster_path}`
+    : "https://placehold.co/300x450?text=Sem+Imagem";
 
   return (
-    <View style={[styles.movieCard, { width: cardWidth, height: cardHeight }]}>
-      <Image
-        source={{ uri: image }}
-        style={styles.image}
-        resizeMode="cover"
-      />
-    </View>
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: "/movie/[id]",
+          params: { id: String(movie.id) },
+        })
+      }
+      style={[styles.card, style]}
+      accessibilityRole="button"
+      accessibilityLabel={`Abrir detalhes do filme ${movie.title}`}
+    >
+      {/* Usando aspectRatio para manter proporção e evitar corte */}
+      <View style={styles.imageWrapper}>
+        <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
+      </View>
+    </TouchableOpacity>
   );
 };
 
 export default MovieCard;
 
 const styles = StyleSheet.create({
+  card: {
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  imageWrapper: {
+    width: "100%",
+    aspectRatio: 2 / 3, // padrão póster (ex.: 2:3). Ajuste se necessário.
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "#ddd",
+  },
   image: {
     width: "100%",
     height: "100%",
-    borderRadius: 10,
-  },
-  movieCard: {
-    marginBottom: 15,
-    borderRadius: 10,
-    overflow: "hidden",
   },
 });

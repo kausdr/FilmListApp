@@ -3,24 +3,60 @@ import React, { useContext } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { UserContext, UserProvider } from "./dev/contexts/userContextAPI";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 export default function Layout() {
-
   return (
-    <UserProvider>
-      <AuthGuard />
-      <Toast />
-    </UserProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <UserProvider>
+          <AuthGuard />
+          <Stack
+            screenOptions={{
+              headerShown: true,
+              headerBackTitle: "Voltar",
+            }}
+          >
+            <Stack.Screen
+              name="home/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="login/index"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="signup/index"
+              options={{
+                title: "Cadastro",
+                headerTitle: "Cadastro",
+                headerShown: true,
+              }}
+            />
+            <Stack.Screen
+              name="profile/index"
+              options={{
+                title: "Perfil",
+                headerTitle: "Perfil",
+                headerShown: true,
+              }}
+            />
+          </Stack>
+          <Toast />
+          <StatusBar style="auto" />
+        </UserProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
-
-
 
 function AuthGuard() {
   const { user, isLoading } = useContext(UserContext);
   const segments = useSegments();
 
-  const inAuthGroup = segments[0] === 'login' || segments[0] === 'signup';
+  const inAuthGroup = segments[0] === "login" || segments[0] === "signup";
 
   if (isLoading) {
     return (
@@ -38,50 +74,14 @@ function AuthGuard() {
     return <Redirect href="/home" />;
   }
 
-  return (
-    <Stack
-      screenOptions={{
-        headerShown: true,
-        headerBackTitle: 'Voltar',
-      }}
-    >
-      <Stack.Screen
-        name="home/index"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="login/index"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="signup/index"
-        options={{
-          title: 'Cadastro',
-          headerTitle: 'Cadastro',
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name="profile/index"
-        options={{
-          title: 'Perfil',
-          headerTitle: 'Perfil',
-          headerShown: true,
-        }}
-      />
-    </Stack>
-  );
+  return null; // ✅ não renderiza outro Stack aqui!
 }
 
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black'
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
   },
 });
