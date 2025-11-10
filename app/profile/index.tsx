@@ -1,6 +1,16 @@
 import { Colors } from "@/app/_styles/colors";
 import React, { useContext, useEffect, useRef } from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  useWindowDimensions,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import ImagePicker from "../_dev/components/ImagePicker";
 import { UserContext } from "../_dev/contexts/userContextAPI";
@@ -73,147 +83,152 @@ const Profile = () => {
     width >= 1200 ? "40%" : width >= 768 ? "60%" : "90%";
 
   return (
-    <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
-      <View
-        style={[
-          indexStyles.outerContainer,
-          { justifyContent: "center", alignItems: "center", padding: 20 },
-        ]}
-      >
-        <ScrollView
-          style={[indexStyles.innerContainer, { width: "100%" }]}
-          contentContainerStyle={{
-            alignItems: "center",
-            paddingVertical: 30,
-          }}
-          keyboardShouldPersistTaps="handled"
+    <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={dismissKeyboard} accessible={false}>
+        <View
+          style={[
+            indexStyles.outerContainer,
+            { justifyContent: "center", alignItems: "center", padding: 20 },
+          ]}
         >
-          <View style={[indexStyles.card, { width: cardWidth, padding: 25 }]}>
-            <Text
-              style={[
-                indexStyles.pageTitle,
-                { fontSize: width > 768 ? 28 : 24, marginBottom: 20 },
-              ]}
-            >
-              Perfil
-            </Text>
-
-            <View style={indexStyles.section}>
-              <ImagePicker image={image} setImage={setImage} isEditable={editable} />
+          <ScrollView
+            style={[indexStyles.innerContainer, { width: "100%" }]}
+            contentContainerStyle={{
+              alignItems: "center",
+              paddingVertical: 30,
+            }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={[indexStyles.card, { width: cardWidth, padding: 25 }]}>
               <Text
                 style={[
-                  indexStyles.title,
-                  { fontSize: width > 768 ? 22 : 18, marginTop: 10 },
+                  indexStyles.pageTitle,
+                  { fontSize: width > 768 ? 28 : 24, marginBottom: 20 },
                 ]}
               >
-                {name}
+                Perfil
               </Text>
-            </View>
 
-            <View style={indexStyles.section}>
-              <Text style={indexStyles.label}>Nome:</Text>
-              <TextInput
+              <View style={indexStyles.section}>
+                <ImagePicker image={image} setImage={setImage} isEditable={editable} />
+                <Text
+                  style={[
+                    indexStyles.title,
+                    { fontSize: width > 768 ? 22 : 18, marginTop: 10 },
+                  ]}
+                >
+                  {name}
+                </Text>
+              </View>
+
+              <View style={indexStyles.section}>
+                <Text style={indexStyles.label}>Nome:</Text>
+                <TextInput
+                  style={[
+                    indexStyles.input,
+                    !editable && indexStyles.inputDisabled,
+                    { fontSize: width > 768 ? 18 : 16 },
+                  ]}
+                  placeholder="Digite seu nome"
+                  placeholderTextColor={Colors.placeholder}
+                  value={name}
+                  onChangeText={setName}
+                  editable={editable}
+                />
+              </View>
+
+              <View style={indexStyles.section}>
+                <Text style={indexStyles.label}>Email:</Text>
+                <TextInput
+                  style={[
+                    indexStyles.input,
+                    !editable && indexStyles.inputDisabled,
+                    { fontSize: width > 768 ? 18 : 16 },
+                  ]}
+                  placeholder="Digite seu email"
+                  placeholderTextColor={Colors.placeholder}
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  editable={editable}
+                />
+              </View>
+
+              <View style={indexStyles.section}>
+                <Text style={indexStyles.label}>Senha:</Text>
+                <TextInput
+                  style={[
+                    indexStyles.input,
+                    !editable && indexStyles.inputDisabled,
+                    { fontSize: width > 768 ? 18 : 16 },
+                  ]}
+                  placeholder="Digite sua senha"
+                  placeholderTextColor={Colors.placeholder}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={true}
+                  editable={editable}
+                />
+              </View>
+
+              <View
                 style={[
-                  indexStyles.input,
-                  !editable && indexStyles.inputDisabled,
-                  { fontSize: width > 768 ? 18 : 16 },
+                  indexStyles.section,
+                  { flexDirection: "row", marginTop: 30, flexWrap: "wrap", gap: 10 },
                 ]}
-                placeholder="Digite seu nome"
-                placeholderTextColor={Colors.placeholder}
-                value={name}
-                onChangeText={setName}
-                editable={editable}
-              />
-            </View>
+              >
+                {editable ? (
+                  <>
+                    <TouchableOpacity
+                      style={indexStyles.buttonSecondary}
+                      onPress={handleCancel}
+                      accessibilityLabel="Botão de cancelar alterações no perfil."
+                      accessibilityRole="button"
+                    >
+                      <Text style={indexStyles.buttonSecondaryText}>Cancelar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={indexStyles.buttonPrimary}
+                      onPress={handleSave}
+                      accessibilityLabel="Botão de salvar alterações no perfil."
+                      accessibilityRole="button"
+                    >
+                      <Text style={indexStyles.buttonPrimaryText}>Salvar</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <View style={{ width: "100%", alignItems: "center" }}>
+                    <TouchableOpacity
+                      style={indexStyles.buttonPrimary}
+                      onPress={() => setEditable(true)}
+                      accessibilityLabel="Botão de editar perfil."
+                      accessibilityRole="button"
+                    >
+                      <Text style={indexStyles.buttonPrimaryText}>Editar</Text>
+                    </TouchableOpacity>
 
-            <View style={indexStyles.section}>
-              <Text style={indexStyles.label}>Email:</Text>
-              <TextInput
-                style={[
-                  indexStyles.input,
-                  !editable && indexStyles.inputDisabled,
-                  { fontSize: width > 768 ? 18 : 16 },
-                ]}
-                placeholder="Digite seu email"
-                placeholderTextColor={Colors.placeholder}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                editable={editable}
-              />
+                    <TouchableOpacity
+                      style={[
+                        indexStyles.buttonDestructive,
+                        { width: width > 768 ? 150 : 100, marginTop: 10 },
+                      ]}
+                      onPress={logout}
+                      accessibilityLabel="Botão de sair da conta."
+                      accessibilityRole="button"
+                    >
+                      <Text style={indexStyles.buttonDestructiveText}>Sair</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
             </View>
-
-            <View style={indexStyles.section}>
-              <Text style={indexStyles.label}>Senha:</Text>
-              <TextInput
-                style={[
-                  indexStyles.input,
-                  !editable && indexStyles.inputDisabled,
-                  { fontSize: width > 768 ? 18 : 16 },
-                ]}
-                placeholder="Digite sua senha"
-                placeholderTextColor={Colors.placeholder}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-                editable={editable}
-              />
-            </View>
-
-            <View
-              style={[
-                indexStyles.section,
-                { flexDirection: "row", marginTop: 30, flexWrap: "wrap", gap: 10 },
-              ]}
-            >
-              {editable ? (
-                <>
-                  <TouchableOpacity
-                    style={indexStyles.buttonSecondary}
-                    onPress={handleCancel}
-                    accessibilityLabel="Botão de cancelar alterações no perfil."
-                    accessibilityRole="button"
-                  >
-                    <Text style={indexStyles.buttonSecondaryText}>Cancelar</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={indexStyles.buttonPrimary}
-                    onPress={handleSave}
-                    accessibilityLabel="Botão de salvar alterações no perfil."
-                    accessibilityRole="button"
-                  >
-                    <Text style={indexStyles.buttonPrimaryText}>Salvar</Text>
-                  </TouchableOpacity>
-                </>
-              ) : (
-                <View style={{ width: "100%", alignItems: "center" }}>
-                  <TouchableOpacity
-                    style={indexStyles.buttonPrimary}
-                    onPress={() => setEditable(true)}
-                    accessibilityLabel="Botão de editar perfil."
-                    accessibilityRole="button"
-                  >
-                    <Text style={indexStyles.buttonPrimaryText}>Editar</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={[
-                      indexStyles.buttonDestructive,
-                      { width: width > 768 ? 150 : 100, marginTop: 10 },
-                    ]}
-                    onPress={logout}
-                    accessibilityLabel="Botão de sair da conta."
-                    accessibilityRole="button"
-                  >
-                    <Text style={indexStyles.buttonDestructiveText}>Sair</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-    </TouchableWithoutFeedback>
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

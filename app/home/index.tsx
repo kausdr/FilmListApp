@@ -7,6 +7,7 @@ import MovieCard from "../_dev/components/MovieCard";
 import { apiService } from "../_dev/services/api";
 import { indexStyles } from "../_styles/indexStyles";
 import { UserContext } from "../_dev/contexts/userContextAPI";
+import { Colors } from "../_styles/colors";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -112,22 +113,43 @@ const getMovies = async (searchTerm: string = "", pageNumber: number = 1) => {
         
         </View>
 
-        <TextInput
+        <View
           style={[
             indexStyles.input,
             {
               width: "95%",
               alignSelf: "center",
               marginVertical: 15,
-              fontSize: width > 768 ? 18 : 16,
               paddingVertical: 10,
               paddingHorizontal: 15,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
             },
           ]}
-          placeholder="Buscar filmes..."
-          value={query}
-          onChangeText={handleSearch}
-        />
+        >
+          <TextInput
+            style={{
+              flex: 1,
+              fontSize: width > 768 ? 18 : 16,
+              paddingRight: 10,
+              color: "#000",
+            }}
+            placeholder="Buscar filmes..."
+            placeholderTextColor={Colors.placeholder}
+            value={query}
+            onChangeText={handleSearch}
+          />
+          {query.length > 0 && ( // Só mostra o "X" se tiver texto
+            <TouchableOpacity
+              onPress={() => handleSearch("")} // Limpa a busca ao tocar
+              accessibilityLabel="Limpar pesquisa"
+              accessibilityRole="button"
+            >
+              <Ionicons name="close-circle" size={20} color={Colors.placeholder} />
+            </TouchableOpacity>
+          )}
+        </View>
 
         <FlatList
             data={movies}
