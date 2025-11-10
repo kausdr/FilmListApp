@@ -1,11 +1,11 @@
 import { Redirect, Stack, useSegments } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useContext } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import Toast from "react-native-toast-message";
-import { UserContext, UserProvider } from "./dev/contexts/userContextAPI";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
+import { UserContext, UserProvider } from "./_dev/contexts/userContextAPI";
 
 export default function Layout() {
   return (
@@ -43,6 +43,14 @@ export default function Layout() {
                 headerShown: true,
               }}
             />
+            <Stack.Screen
+              name="favorites/index"
+              options={{
+                title: "Minha Lista",
+                headerTitle: "Minha Lista",
+                headerShown: true,
+              }}
+            />
           </Stack>
           <Toast />
           <StatusBar style="auto" />
@@ -74,7 +82,7 @@ function AuthGuard() {
     return <Redirect href="/home" />;
   }
 
-  return null; // ✅ não renderiza outro Stack aqui!
+  return null; // não renderiza outro Stack aqui!
 }
 
 const styles = StyleSheet.create({

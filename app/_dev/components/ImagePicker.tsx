@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ActionSheetIOS, Alert, Image, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { indexStyles } from "../../styles/indexStyles";
+import { indexStyles } from "../../_styles/indexStyles";
 import { takePhoto, uploadImage } from '../services/user';
 
 interface ImagePickerProps {

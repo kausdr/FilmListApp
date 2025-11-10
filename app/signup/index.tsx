@@ -1,12 +1,12 @@
-import { Colors } from "@/app/styles/colors";
+import { Colors } from "@/app/_styles/colors";
 import { Link, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
 import Toast from "react-native-toast-message";
-import ImagePicker from "../dev/components/ImagePicker";
-import { saveUser, userExists } from "../dev/services/user";
-import { dismissKeyboard } from "../dev/utils/utils";
-import { indexStyles } from "../styles/indexStyles";
+import ImagePicker from "../_dev/components/ImagePicker";
+import { saveUser, userExists } from "../_dev/services/user";
+import { dismissKeyboard } from "../_dev/utils/utils";
+import { indexStyles } from "../_styles/indexStyles";
 
 const SignUp = () => {
   const router = useRouter();

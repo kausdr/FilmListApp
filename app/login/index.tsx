@@ -1,12 +1,12 @@
-import { Colors } from "@/app/styles/colors";
+import { Colors } from "@/app/_styles/colors";
 import { Link, useRouter } from "expo-router";
 import React, { useContext } from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions, Platform } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
 import Toast from "react-native-toast-message";
-import { UserContext } from "../dev/contexts/userContextAPI";
-import { loginUser } from "../dev/services/user";
-import { dismissKeyboard } from "../dev/utils/utils";
-import { indexStyles } from "../styles/indexStyles";
+import { UserContext } from "../_dev/contexts/userContextAPI";
+import { loginUser } from "../_dev/services/user";
+import { dismissKeyboard } from "../_dev/utils/utils";
+import { indexStyles } from "../_styles/indexStyles";
 
 
 const Login = () => {

@@ -1,12 +1,12 @@
-import { Colors } from "@/app/styles/colors";
+import { Colors } from "@/app/_styles/colors";
 import React, { useContext, useEffect, useRef } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native";
 import Toast from "react-native-toast-message";
-import ImagePicker from "../dev/components/ImagePicker";
-import { UserContext } from "../dev/contexts/userContextAPI";
-import { updateUser } from "../dev/services/user";
-import { dismissKeyboard } from "../dev/utils/utils";
-import { indexStyles } from "../styles/indexStyles";
+import ImagePicker from "../_dev/components/ImagePicker";
+import { UserContext } from "../_dev/contexts/userContextAPI";
+import { updateUser } from "../_dev/services/user";
+import { dismissKeyboard } from "../_dev/utils/utils";
+import { indexStyles } from "../_styles/indexStyles";
 
 const Profile = () => {
   const { user, setUser, saveUserSession, logout } = useContext(UserContext);
@@ -14,7 +14,7 @@ const Profile = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [image, setImage] = React.useState("");
+  const [image, setImage] = React.useState("https://placehold.co/600x400/000000/FFF");
   const [editable, setEditable] = React.useState<boolean>(false);
   const prevEmail = useRef<string>(email);
 

@@ -3,9 +3,9 @@ import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import MovieCard from "../dev/components/MovieCard";
-import { apiService } from "../dev/services/api";
-import { indexStyles } from "../styles/indexStyles";
+import MovieCard from "../_dev/components/MovieCard";
+import { apiService } from "../_dev/services/api";
+import { indexStyles } from "../_styles/indexStyles";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
@@ -65,25 +65,40 @@ const getMovies = async (searchTerm: string = "", pageNumber: number = 1) => {
             justifyContent: "space-between",
             marginTop: 15,
             alignItems: "center",
+            paddingHorizontal: 10,
           }}
         >
           <Text style={indexStyles.pageTitle}>Rate My Movie</Text>
-          <Link href="/profile" asChild>
-            <TouchableOpacity
-              style={indexStyles.link}
-              accessibilityLabel="Botão para visitar o perfil."
-              accessibilityRole="button"
-            >
-              <Ionicons name="person-circle-outline" size={30} color="#023b84ff" />
-            </TouchableOpacity>
-          </Link>
+
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 15 }}>
+            <Link href="./favorites" asChild>
+              <TouchableOpacity
+                accessibilityLabel="Botão para ver sua lista de filmes salvos."
+                accessibilityRole="button"
+              >
+                <Ionicons name="list" size={30} color="#023b84ff" />
+              </TouchableOpacity>
+            </Link>
+
+            <Link href="/profile" asChild>
+              <TouchableOpacity
+                style={indexStyles.link}
+                accessibilityLabel="Botão para visitar o perfil."
+                accessibilityRole="button"
+              >
+                <Ionicons name="person-circle-outline" size={30} color="#023b84ff" />
+              </TouchableOpacity>
+            </Link>
+          </View>
+        
         </View>
 
         <TextInput
           style={[
             indexStyles.input,
             {
-              width: "100%",
+              width: "95%",
+              alignSelf: "center",
               marginVertical: 15,
               fontSize: width > 768 ? 18 : 16,
               paddingVertical: 10,

@@ -1,37 +1,98 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { apiService } from "../dev/services/api";
-import { saveFavorite, isFavorite, removeFavorite } from "../dev/services/favorites";
 import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { UserContext } from "../_dev/contexts/userContextAPI";
+import { apiService } from "../_dev/services/api";
+import {
+  getMovieRating,
+  isFavorite,
+  removeFavorite,
+  saveFavorite,
+} from "../_dev/services/favorites";
 
 export default function MovieDetails() {
   const { id } = useLocalSearchParams();
-  const router = useRouter();
+  const { user } = useContext(UserContext);
+
   const [movie, setMovie] = useState<any>(null);
   const [favorite, setFavorite] = useState(false);
   const [rating, setRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      const res = await apiService.getMovieById(id as string);
-      setMovie(res);
-      const fav = await isFavorite(id as string);
-      setFavorite(fav);
-    };
-    fetchMovie();
-  }, []);
+    const fetchMovieData = async () => {
+      if (!user?.email || !id) return;
 
-  const toggleFavorite = async () => {
-    if (favorite) {
-      await removeFavorite(id as string);
-    } else {
-      await saveFavorite(movie);
+      setIsLoading(true);
+      try {
+        const res = await apiService.getMovieById(id as string);
+        setMovie(res);
+
+        const fav = await isFavorite(user.email, id as string);
+        setFavorite(fav);
+
+        if (fav) {
+          const userRating = await getMovieRating(user.email, id as string);
+          setRating(userRating);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do filme:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMovieData();
+  }, [id, user]);
+
+  const handleRatingChange = async (newRating: number) => {
+    setRating(newRating);
+    if (!user?.email || !movie) return;
+
+    // Salva/atualiza o filme como favorito automaticamente ao avaliar
+    try {
+      await saveFavorite(user.email, movie, newRating);
+      if (!favorite) {
+        setFavorite(true);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar avaliação:", error);
     }
-    setFavorite(!favorite);
   };
 
-  if (!movie) return <Text>Carregando...</Text>;
+  const toggleFavorite = async () => {
+    if (!user?.email || !movie) return;
+
+    try {
+      if (favorite) {
+        await removeFavorite(user.email, id as string);
+        setRating(0);
+        setFavorite(false);
+      } else {
+        await saveFavorite(user.email, movie, rating);
+        setFavorite(true);
+      }
+    } catch (error) {
+      console.error("Erro ao alternar favorito:", error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!movie) return <Text>Filme não encontrado.</Text>;
 
   return (
     <ScrollView
@@ -52,6 +113,7 @@ export default function MovieDetails() {
           borderRadius: 12,
           marginBottom: 20,
         }}
+        accessibilityLabel={`Pôster do filme: ${movie.title}`}
       />
 
       <Text style={{ fontSize: 24, fontWeight: "bold" }}>{movie.title}</Text>
@@ -67,7 +129,14 @@ export default function MovieDetails() {
 
       <View style={{ flexDirection: "row", marginBottom: 20 }}>
         {[1, 2, 3, 4, 5].map((star) => (
-          <TouchableOpacity key={star} onPress={() => setRating(star)}>
+          <TouchableOpacity 
+            key={star}
+            onPress={() => handleRatingChange(star)}
+            accessibilityLabel={`Avaliar com ${star} estrela${
+              star > 1 ? "s" : ""
+            }`}
+            accessibilityRole="button"
+          >
             <Ionicons
               name={star <= rating ? "star" : "star-outline"}
               size={32}
@@ -87,6 +156,12 @@ export default function MovieDetails() {
           padding: 14,
           borderRadius: 10,
         }}
+        accessibilityLabel={
+          favorite
+            ? "Remover da Minha Lista de filmes"
+            : "Salvar na Minha Lista de filmes"
+        }
+        accessibilityRole="button"
       >
         <Ionicons
           name={favorite ? "heart" : "heart-outline"}

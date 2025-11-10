@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { Image, StyleSheet, View, ViewStyle, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -14,6 +14,8 @@ const MovieCard = ({ movie, style }: MovieCardProps) => {
     ? `${process.env.EXPO_PUBLIC_IMAGE_BASE_URL}${movie.poster_path}`
     : "https://placehold.co/300x450?text=Sem+Imagem";
 
+  const accessibilityText = `Pôster do filme ${movie.title || 'desconhecido'}`;
+
   return (
     <TouchableOpacity
       onPress={() =>
@@ -24,11 +26,16 @@ const MovieCard = ({ movie, style }: MovieCardProps) => {
       }
       style={[styles.card, style]}
       accessibilityRole="button"
-      accessibilityLabel={`Abrir detalhes do filme ${movie.title}`}
+      accessibilityLabel={`Abrir detalhes do filme ${movie.title|| 'desconhecido'}`}
     >
       {/* Usando aspectRatio para manter proporção e evitar corte */}
       <View style={styles.imageWrapper}>
-        <Image source={{ uri: imageUri }} style={styles.image} resizeMode="cover" />
+        <Image
+          source={{ uri: imageUri }}
+          style={styles.image}
+          resizeMode="cover"
+          accessibilityLabel={accessibilityText}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: "100%",
-    aspectRatio: 2 / 3, // padrão póster (ex.: 2:3). Ajuste se necessário.
+    aspectRatio: 2 / 3, // padrão póster (ex.: 2:3).
     borderRadius: 8,
     overflow: "hidden",
     backgroundColor: "#ddd",
