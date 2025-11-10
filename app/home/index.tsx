@@ -1,15 +1,17 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { FlatList, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { FlatList, Text, TextInput, TouchableOpacity, View, useWindowDimensions, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MovieCard from "../_dev/components/MovieCard";
 import { apiService } from "../_dev/services/api";
 import { indexStyles } from "../_styles/indexStyles";
+import { UserContext } from "../_dev/contexts/userContextAPI";
 
 const Home = () => {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const { user } = useContext(UserContext);
   const [movies, setMovies] = useState<any[]>([]);
   const [query, setQuery] = useState<string>("");
   const [page, setPage] = useState(1);
@@ -86,7 +88,24 @@ const getMovies = async (searchTerm: string = "", pageNumber: number = 1) => {
                 accessibilityLabel="Botão para visitar o perfil."
                 accessibilityRole="button"
               >
-                <Ionicons name="person-circle-outline" size={30} color="#023b84ff" />
+                {user?.image && user.image !== "https://placehold.co/600x400/000000/FFF" ? (
+                  <Image
+                    source={{ uri: user.image }}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
+                      borderWidth: 1,
+                      borderColor: "#023b84ff",
+                    }}
+                  />
+                ) : (
+                  <Ionicons
+                    name="person-circle-outline"
+                    size={32}
+                    color="#023b84ff"
+                  />
+                )}
               </TouchableOpacity>
             </Link>
           </View>
@@ -134,6 +153,7 @@ const getMovies = async (searchTerm: string = "", pageNumber: number = 1) => {
             style={[
               indexStyles.buttonPrimary,
               {
+                flex: 0,
                 marginVertical: 20,
                 width: width > 768 ? 200 : "80%",
                 alignSelf: "center",

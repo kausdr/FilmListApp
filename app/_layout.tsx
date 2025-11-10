@@ -51,6 +51,14 @@ export default function Layout() {
                 headerShown: true,
               }}
             />
+            <Stack.Screen
+              name="movie/[id]"
+              options={{
+                title: "Detalhes do Filme",
+                headerTitle: "Detalhes",
+                headerShown: true,
+              }}
+            />
           </Stack>
           <Toast />
           <StatusBar style="auto" />

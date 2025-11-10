@@ -18,7 +18,7 @@ const Profile = () => {
   const [editable, setEditable] = React.useState<boolean>(false);
   const prevEmail = useRef<string>(email);
 
-  const { width } = useWindowDimensions(); // 👈 detecta a largura da tela
+  const { width } = useWindowDimensions(); // detecta a largura da tela
 
   useEffect(() => {
     if (user) {
@@ -83,8 +83,6 @@ const Profile = () => {
         <ScrollView
           style={[indexStyles.innerContainer, { width: "100%" }]}
           contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
             alignItems: "center",
             paddingVertical: 30,
           }}

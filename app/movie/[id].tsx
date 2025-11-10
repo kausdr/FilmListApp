@@ -109,9 +109,10 @@ export default function MovieDetails() {
         }}
         style={{
           width: "100%",
-          height: 400,
+          aspectRatio: 2 / 3,
           borderRadius: 12,
           marginBottom: 20,
+          resizeMode: "cover",
         }}
         accessibilityLabel={`Pôster do filme: ${movie.title}`}
       />
